@@ -1,0 +1,5 @@
+# SCons settings
+.sconsign.dblite
+
+# platformio environments
+.pioenvs
