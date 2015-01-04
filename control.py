@@ -2,7 +2,10 @@
 
 import serial
 
-port = serial.Serial("/dev/ttyACM0")
+port = serial.Serial("/dev/ttyUSB1", 57600)
+
+for i in range(255):
+    port.write(bytes(i))
 
 while True:
     print("Number? ")

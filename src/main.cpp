@@ -1,40 +1,43 @@
 #include <Arduino.h>
-#include <Servo.h>
+#include <SoftwareSerial.h>
 
-Servo motor;
+#include "qopter/Motor.h"
+
 int pin = 10;
+qopter::Motor motor(pin);
 
-int speed = 40;
-int newSpeed = speed;
+SoftwareSerial radio(10, 11);
 
 void setup () {
+  //motor.initialize();
+
+  pinMode(10, INPUT);
+  pinMode(11, OUTPUT);
+
   Serial.begin(9600);
+  radio.begin(57600);
 
-  motor.attach(pin);
-
-  delay(10);
-
-  motor.write(speed);
-
-  delay(1000);
+  radio.listen();
 }
 
 void loop () {
-  if (Serial.available()) {
-    newSpeed = Serial.parseInt();
+  // if (Serial.available()) {
+  //   motor.setSpeed(Serial.parseInt());
+  // }
+
+  //motor.loop();
+
+  while (radio.available()) {
+    int x = radio.read();
+
+    radio.print(x);
+    radio.println();
   }
 
-  if (newSpeed != speed) {
-    if (newSpeed > speed) {
-      speed++;
-    } else if (newSpeed < speed) {
-      speed--;
-    }
+  // for (int i = 0; i <= 255; i++) {
+  //   Serial.write(i);
+  //   radio.write(i);
+  // }
 
-    Serial.println(speed);
-
-    motor.write(speed);
-  }
-
-  delay(10);
+  delay(200);
 }
