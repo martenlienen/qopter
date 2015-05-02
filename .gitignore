@@ -3,3 +3,6 @@
 
 # platformio environments
 .pioenvs
+
+# Virtualenv environment
+/qopter.env/

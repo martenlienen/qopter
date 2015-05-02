@@ -1,5 +1,21 @@
 # Selfmade quadrocopter
 
+## Installation
+
+```sh
+# Create a virtualenv
+virtualenv qopter.env
+
+# Activate the environment
+. qopter.env/bin/activate
+
+# Install the python dependencies
+pip install -r requirements.txt
+
+# Now use platformio to deploy to an arduino
+platformio install
+```
+
 ## Motors
 
 The arming sequence is:
