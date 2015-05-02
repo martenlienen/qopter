@@ -1,15 +1,48 @@
 # Send strings to a serial device
 
+import numpy
+import time
 import serial
+import mavlink
 
-port = serial.Serial("/dev/ttyUSB1", 57600)
+def send_mav():
+    for i in range(10):
+        mav.led_send((1 + i % 2) * 400)
 
-for i in range(255):
-    port.write(bytes(i))
+        print(i)
 
-while True:
-    print("Number? ")
+        time.sleep(1)
 
-    number = raw_input()
+def print_hist(h):
+    s = float(max(h))
 
-    port.write(number)
+    for i in range(256):
+        print("%3d %s" % (i, "-" * int(30.0 * (h[i] / s))))
+
+    print("Min: %d, Mean: %f, Max: %d" % (min(h), numpy.mean(h), max(h)))
+
+port = serial.Serial("/dev/ttyUSB0", 57600)
+#port = serial.Serial("/dev/ttyACM0", 9600)
+#port = serial.Serial("/dev/ttyUSB0", 9600)
+mav = mavlink.MAVLink(port)
+
+ds = []
+
+try:
+    while True:
+        c = port.read()
+        m = None
+
+        try:
+            m = mav.parse_char(c)
+        except mavlink.MAVError as e:
+            print("Error: %s" % e.message)
+
+        if m:
+            print(m)
+
+            ds.append(m.duration)
+except KeyboardInterrupt:
+    hist, bins = numpy.histogram(ds, bins=range(257))
+
+    print_hist(hist)
