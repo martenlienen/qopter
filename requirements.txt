@@ -1,4 +1,6 @@
 click==4.0
+ipdb==0.8.1
+ipython==3.2.1
 platformio==1.4.0
 PyBluez==0.21
 pyserial==2.7
