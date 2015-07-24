@@ -5,4 +5,4 @@
 .pioenvs
 
 # Virtualenv environment
-/qopter.env/
+.env
