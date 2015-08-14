@@ -32,3 +32,13 @@ You have to operate the radio transmitters at a baud rate of 57600.
 
 You have to connect the RX of the arduino to the TX of the radio transmitter and
 vice versa.
+
+## Rotor Configuration
+
+- *1* and *3* clockwise
+- *2* and *4* counterclockwise
+
+## Peculiarities
+
+Rotor *3* stops rotation after a short while at the lowest possible angle of
+`55`. An angle of `60` keeps all rotors running consistently.
