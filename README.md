@@ -24,7 +24,7 @@ The arming sequence is:
 - *Beeep*
 
 After that you can control the motor speed with PWM. The min and max speeds are
-55 and 160.
+55 and 130.
 
 ## Radio
 
