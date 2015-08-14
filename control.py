@@ -1,15 +1,15 @@
-# Send strings to a serial device
+import bluetooth
+import IPython
 
-import serial
+PORT = 0x1001
+sock = bluetooth.BluetoothSocket()
+sock.bind(("", PORT))
+sock.listen(1)
 
-port = serial.Serial("/dev/ttyUSB1", 57600)
+print("Listening on {}".format(PORT))
 
-for i in range(255):
-    port.write(bytes(i))
+clientsock, address = sock.accept()
 
-while True:
-    print("Number? ")
+print("Connection from {}".format(address))
 
-    number = raw_input()
-
-    port.write(number)
+IPython.embed()
