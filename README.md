@@ -26,12 +26,11 @@ The arming sequence is:
 After that you can control the motor speed with PWM. The min and max speeds are
 55 and 130.
 
-## Radio
+## BlueTooth
 
-You have to operate the radio transmitters at a baud rate of 57600.
-
-You have to connect the RX of the arduino to the TX of the radio transmitter and
-vice versa.
+We use QGroundControl as a GCS and communicate with our qopter via MAVLink over
+BlueTooth. To create a BT connection in QGC, use a python script to create a
+serial device, that is a proxy for a BT connection, and connect to that.
 
 ## Rotor Configuration
 
