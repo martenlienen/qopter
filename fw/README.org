@@ -1,0 +1,30 @@
+#+TITLE: Custom Firmware for the Qopter
+* Setup
+#+BEGIN_SRC bash :results silent
+  # Create a python 2.7.9 virtualenv
+  pyenv virtualenv qopter-fw
+
+  # Active the python environment in this directory
+  pyenv local qopter-fw
+
+  # Install dependencies
+  pip install -r requirements.txt
+
+  # Deploy to an arduino
+  platformio install
+#+END_SRC
+* Notes
+** Motors
+The arming sequence is:
+- Send angle of 40
+- Connect to battery
+- *Beeep*
+
+After that you can control the motor speed with PWM. The min and max speeds are
+55 and 130.
+** Rotor Configuration
+- *1* and *3* spin clockwise
+- *2* and *4* spin counterclockwise
+** Peculiarities
+Rotor *3* stops rotation after a short while at the lowest possible angle of
+`55`. An angle of `60` keeps all rotors running consistently.

@@ -1,0 +1,37 @@
+#+TITLE: A Tiny Command-Line GCS for our Qopter
+First, the GCS starts a bluetooth server and connects to the qopter. Then the
+user is presented an IPython prompt, in which he can call functions to send
+MAVLink messages.
+
+* Setup
+** Activating bluetooth on Arch Linux
+#+BEGIN_SRC bash
+  # Enable bluetooth
+  $ sudo systemctl start bluetooth.service
+
+  # Power on the device
+  $ bluetoothctl
+  [NEW] Controller B4:B6:76:ED:72:E9 ativ9 [default]
+  [NEW] Device 00:06:66:69:72:A3 qopter
+  [bluetooth]# list
+  Controller B4:B6:76:ED:72:E9 ativ9 [default]
+  [bluetooth]# select B4:B6:76:ED:72:E9
+  [bluetooth]# power on
+  [CHG] Controller B4:B6:76:ED:72:E9 Class: 0x00010c
+  Changing power on succeeded
+  [CHG] Controller B4:B6:76:ED:72:E9 Powered: yes
+#+END_SRC
+** Running the GCS
+#+BEGIN_SRC bash :results silent
+  # Create a python 3.5 virtualenv
+  pyenv virtualenv qopter-gcs
+
+  # Active the python environment in this directory
+  pyenv local qopter-gcs
+
+  # Install dependencies
+  pip install -r requirements.txt
+
+  # Run it
+  python -m gcs.py
+#+END_SRC

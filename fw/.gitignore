@@ -1,8 +1,8 @@
+# Local python version
+.python-version
+
 # SCons settings
 .sconsign.dblite
 
 # platformio environments
 .pioenvs
-
-# Virtualenv environment
-.env

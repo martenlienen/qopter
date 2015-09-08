@@ -1,0 +1,5 @@
+#+TITLE: Qopter - Self-Made Quadrocopter from the Ground Up
+
+This project is split into a firmware for our arduino based quadrocopter and a
+command-line based ground control station written in python, that communicates
+with the qopter via MAVLink messages.
