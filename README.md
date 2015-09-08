@@ -3,11 +3,11 @@
 ## Installation
 
 ```sh
-# Create a virtualenv
-virtualenv qopter.env
+# Create a virtual environment
+pyenv virtualenv qopter
 
 # Activate the environment
-. qopter.env/bin/activate
+pyenv local qopter
 
 # Install the python dependencies
 pip install -r requirements.txt
