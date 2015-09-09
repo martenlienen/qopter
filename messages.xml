@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<mavlink>
+  <version>3</version>
+  <enums>
+  </enums>
+  <messages>
+    <message id="0" name="HEARTBEAT">
+      <description>
+        The heartbeat message shows that a system is present and
+        responding. The type of the MAV and Autopilot hardware allow the
+        receiving system to treat further messages from this system
+        appropriate (e.g. by laying out the user interface based on the
+        autopilot).
+      </description>
+    </message>
+  </messages>
+</mavlink>

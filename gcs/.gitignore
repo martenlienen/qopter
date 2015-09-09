@@ -1,2 +1,5 @@
 # Local python version
 .python-version
+
+# MAVLink bindings
+mavlink.py

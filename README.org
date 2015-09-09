@@ -3,3 +3,9 @@
 This project is split into a firmware for our arduino based quadrocopter and a
 command-line based ground control station written in python, that communicates
 with the qopter via MAVLink messages.
+
+* Building
+#+BEGIN_SRC sh :results silent
+  # Generate the language bindings for the MAVLink messages
+  make messages
+#+END_SRC
