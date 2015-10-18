@@ -13,6 +13,11 @@
   # Deploy to an arduino
   platformio install
 #+END_SRC
+* Serial Communication
+We use picocom for serial communication with the arduino.
+#+BEGIN_SRC bash :results silent
+  picocom --echo --baud 9600 <device>
+#+END_SRC
 * Notes
 ** Motors
 The arming sequence is:
