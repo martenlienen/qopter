@@ -1,3 +1,6 @@
+#ifndef QOPTER_MOTOR_H
+#define QOPTER_MOTOR_H
+
 #include <Servo.h>
 
 namespace qopter {
@@ -14,9 +17,11 @@ namespace qopter {
     void setSpeed(int speed);
 
   private:
+    int pin;
     int speed;
     int targetSpeed;
-    int pin;
     Servo servo;
   };
 }
+
+#endif

@@ -1,40 +1,106 @@
 #include <Arduino.h>
 #include <Servo.h>
+#include <SoftwareSerial.h>
 
-Servo motor;
-int pin = 10;
+#include "qopter/Bluetooth.h"
+#include "qopter/LED.h"
 
-int speed = 40;
-int newSpeed = speed;
+#define SECOND 1000
 
-void setup () {
-  Serial.begin(9600);
+// The built-in LED
+qopter::LED led(13);
 
-  motor.attach(pin);
+SoftwareSerial serial(2, 3);
+qopter::Bluetooth bt(serial);
 
-  delay(10);
+bool initialized = false;
 
-  motor.write(speed);
+bool setupBluetooth() {
+  serial.begin(115200);
 
-  delay(1000);
-}
+  delay(100);
 
-void loop () {
-  if (Serial.available()) {
-    newSpeed = Serial.parseInt();
-  }
+  if (bt.commandMode()) {
+    delay(100);
 
-  if (newSpeed != speed) {
-    if (newSpeed > speed) {
-      speed++;
-    } else if (newSpeed < speed) {
-      speed--;
+    // Reduce baud rate, because SoftwareSerial cannot keep up with the default
+    // of 115200 kbps.
+    if (!bt.baudRate("9600")) {
+      Serial.println("Could not reduce the baud rate");
+      led.panicBlink(SECOND);
+      return false;
     }
 
-    Serial.println(speed);
+    // From here on we can communicate at a rate of 9600 kbps
+    serial.begin(9600);
 
-    motor.write(speed);
+    delay(100);
+
+    if (!bt.commandMode()) {
+      Serial.println("Could not enter command mode at low baud rate");
+      led.panicBlink(SECOND);
+      return false;
+    }
+  } else {
+    // This is a valid assumption, because it happens every time in development,
+    // when you just redeploy the application without restarting the arduino.
+    Serial.println("Could not enter command mode at high baud rate");
+    Serial.println("Assuming that BT chip already runs at 9600 kbps");
+    Serial.println("and is in command mode");
   }
 
-  delay(10);
+  return true;
+}
+
+void serialToBluetooth() {
+  char buffer[1000];
+  int n = 0;
+
+  while (Serial.available() && n < 1000) {
+    buffer[n] = (char)Serial.read();
+
+    n++;
+  }
+
+  if (n > 0) {
+    serial.write(buffer, n);
+    serial.flush();
+  }
+
+  n = 0;
+
+  while (serial.available() && n < 1000) {
+    buffer[n] = (char)serial.read();
+
+    n++;
+  }
+
+  if (n > 0) {
+    for (int i = 0; i < n; i++) {
+      Serial.write(buffer[i]);
+      Serial.flush();
+    }
+  }
+}
+
+void setup() {
+  // Initialize serial communication via cable
+  Serial.begin(9600);
+
+  // TODO: FACTORY RESET GPIO4
+
+  if (setupBluetooth()) {
+    initialized = true;
+  } else {
+    Serial.println("Could not set up bluetooth");
+  }
+}
+
+void loop() {
+  if (!initialized) {
+    led.panicBlink(SECOND);
+    return;
+  }
+
+  serialToBluetooth();
 }
